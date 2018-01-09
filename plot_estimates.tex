@@ -1,0 +1,34 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+\usepackage{amsmath}
+%color-blind friendly colors from http://colorbrewer2.org/#type=qualitative&scheme=Dark2&n=3
+\definecolor{nblue}{rgb}{0.2,0.2,0.7}
+\definecolor{ngreen}{rgb}{0.1,0.5,0.1}%272
+\definecolor{nred}{rgb}{0.8,0.2,0.2}%711
+
+\newcommand{\file}{data.csv}
+\begin{document}
+\begin{tikzpicture}
+\begin{loglogaxis}[xlabel={Infidelity $r$ of noise per
+generator},ylabel={$1-f(\mathcal{RL})$}, ymin=0.000005]
+\addplot[only marks, mark size = 1pt,] 
+table [x=generatorInfidelity, y=trueInfidelity, col sep=comma] 
+{\file};
+\addplot[scatter, mark=none, only marks, nred, thick, error bars/.cd,y
+explicit,y dir=both] table [x=generatorInfidelity, y=estimatedInfidelity, y
+error=estimatedError, col sep=comma] 
+{\file};
+\end{loglogaxis}
+\end{tikzpicture}
+\begin{tikzpicture}
+\begin{loglogaxis}[xlabel={Infidelity $r$ of noise per generator},ylabel={$\delta$}]
+\addplot[only marks, mark size = 2pt, mark = x] 
+table [x=generatorInfidelity, y=delta2, col sep=comma] 
+{\file};
+\addplot[only marks, mark size = 1pt] 
+table [x=generatorInfidelity, y=delta1, col sep=comma]
+{\file};
+\end{loglogaxis}
+\end{tikzpicture}
+\end{document}
+
